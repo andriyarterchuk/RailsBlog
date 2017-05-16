@@ -10,8 +10,6 @@ class CommentsController < ApplicationController
       @comment.user = current_user
 
       if @comment.save
-        # ActionCable.server.broadcast "comments",
-           # render(partial: 'comments/comment', object: @comment)
         flash[:notice] = "Comment has been created"
       else
         flash.now[:alert] = "Comment has not been created"
@@ -21,6 +19,7 @@ class CommentsController < ApplicationController
   end
 
     def destroy
+    @comment = Comment.find_by(id: params[:id])
     if @comment.destroy
       flash[:success] = "Comment has been deleted"
       redirect_to article_path(@article)
